@@ -1,17 +1,16 @@
 //package com.konradsobczak.bbeat;
 
-/**
-  * BBFunctionInterpreter - executes BareBones function statements
-  *
-  * @author Konrad Sobczak
-  */
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 
+/**
+  * BBFunctionInterpreter - executes BareBones function statements
+  *
+  * @author Konrad Sobczak
+  */
 class BBFunctionInterpreter {
     private HashMap<String, BBVariable> variables = new HashMap<String, BBVariable>();
     private HashMap<String, BBFunction> functions = new HashMap<String, BBFunction>();

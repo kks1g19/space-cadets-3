@@ -1,17 +1,16 @@
 //package com.konradsobczak.bbeat;
 
-/**
-  * BBFunction - Functions in BareBones
-  *
-  * @author Konrad Sobczak
-  */
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 
+/**
+  * BBFunction - Functions in BareBones
+  *
+  * @author Konrad Sobczak
+  */
 class BBFunction {
     private final ArrayList<String> parameters;
     private final int start;

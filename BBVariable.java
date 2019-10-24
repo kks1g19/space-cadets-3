@@ -1,14 +1,12 @@
 //package com.konradsobczak.bbeat;
 
+@SuppressWarnings("unchecked")
+
 /**
   * BBVariable - Variables in BareBones
   *
   * @author Konrad Sobczak
   */
-
-
-@SuppressWarnings("unchecked")
-
 public class BBVariable {
     private Integer integerValue;
     private String stringValue;

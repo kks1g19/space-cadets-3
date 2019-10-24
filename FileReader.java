@@ -1,16 +1,14 @@
 //package com.konradsobczak.bbeat;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
   * FileReader - reads file and puts it in a single string
   *
   * @author Konrad Sobczak
   */
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
-
-
 public class FileReader {
     /**
       * Read the file at provided path

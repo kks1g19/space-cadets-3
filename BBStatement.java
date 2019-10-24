@@ -1,13 +1,12 @@
 //package com.konradsobczak.bbeat;
 
+import java.util.ArrayList;
+
 /**
   * BBStatement - parsed BareBones statement
   *
   * @author Konrad Sobczak
   */
-
-import java.util.ArrayList;
-
 public class BBStatement{
     private final String operation;
     private final ArrayList<String> arguments;

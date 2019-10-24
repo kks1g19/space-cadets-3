@@ -1,13 +1,11 @@
-//package com.konradsobczak.bbeat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
   * BBParser - parses BareBones statements to more useful form
   *
   * @author Konrad Sobczak
   */
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class BBParser {
     private final String source;

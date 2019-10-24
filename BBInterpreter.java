@@ -1,16 +1,15 @@
 //package com.konradsobczak.bbeat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Arrays;
 
 /**
   * BBInterpreter - executes BareBones statements
   *
   * @author Konrad Sobczak
   */
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.ArrayDeque;
-import java.util.Arrays;
 
 public class BBInterpreter {
     private HashMap<String, BBVariable> variables = new HashMap<String, BBVariable>();
