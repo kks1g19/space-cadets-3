@@ -20,11 +20,13 @@ public class BBParser {
         this.source = source;
         this.statements = new ArrayList<BBStatement>();
         for(String statement : source.split(";")){
+            statement = statement.trim();
             if(statement.length() > 0 && statement.charAt(0) != '#' && !statement.matches("(^\n$)|(^\r$)|(^\r\n$)")){
                 ArrayList<String> words = new ArrayList<String>(Arrays.asList(statement.split(" ")));
                 words.removeIf(a -> a.equals(""));
                 for(int i = 0; i < words.size(); i++){
                     String word = words.get(i);
+                    word = word.replace("\n", "").replace("\r", "").trim();
                     if(word.charAt(0) == '"' && word.charAt(word.length() - 1) != '"'){
                         String nextWord = word;
                         int j = 1;

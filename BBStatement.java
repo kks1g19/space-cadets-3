@@ -19,8 +19,11 @@ public class BBStatement{
       */
     public BBStatement(ArrayList<String> words){
         this.text = String.join(" ", words);
-        this.operation = words.get(0);
+        this.operation = words.get(0).trim();
         words.remove(0);
+        for(String word : words){
+            word = word.trim();
+        }
         this.arguments = words;
     }
 

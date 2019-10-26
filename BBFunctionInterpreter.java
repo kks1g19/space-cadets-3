@@ -75,7 +75,7 @@ class BBFunctionInterpreter {
       */
     private boolean execute(BBStatement statement){
         boolean success = false;
-        switch (statement.getOperation()){
+        switch (statement.getOperation().trim()){
             case "print":
                 success = print(statement.getArguments());
                 break;
@@ -99,6 +99,9 @@ class BBFunctionInterpreter {
                 break;
             case "while":
                 success = startLoop(statement.getArguments());
+                break;
+            case "if":
+                success = startIf(statement.getArguments());
                 break;
             case "return":
                 success = returnValue(statement.getArguments());
@@ -330,13 +333,68 @@ class BBFunctionInterpreter {
       * @return true if loop was successful
       */
     private boolean startLoop(ArrayList<String> args){
-        BBVariable loopVarible = getVariable(args.get(0));
-        BBVariable loopConstant = new BBVariable(args.get(2));
-        BBLoopCondition loopCondition = new BBLoopCondition(loopVarible, loopConstant, this.parser.currentAddress() - 1);
+        BBVariable loopVarible = null;
+        if(getVariable(args.get(0)) != null){
+            loopVarible = getVariable(args.get(0));
+        } else {
+            loopVarible = new BBVariable(args.get(0));
+        }
+        BBVariable loopConstant = null;
+        if(getVariable(args.get(2)) != null){
+            loopConstant = getVariable(args.get(2));
+        } else {
+            loopConstant = new BBVariable(args.get(2));
+        }
+        BBLoopCondition loopCondition = new BBLoopCondition(loopVarible, loopConstant, this.parser.currentAddress() - 1, args.get(1));
         if(loopCondition.finished()){
             this.parser.branch(findBlockEnd(this.parser.currentAddress()) + 1);
         } else {
             loops.push(loopCondition);
+        }
+        return true;
+    }
+
+    /**
+      * Create a new BBIfCondition
+      * @param args Arguments to the if cont
+      * @return true if was successful
+      */
+    private boolean startIf(ArrayList<String> args){
+        BBVariable conditionVarible = null;
+        if(getVariable(args.get(0)) != null){
+            conditionVarible = getVariable(args.get(0));
+        } else {
+            conditionVarible = new BBVariable(args.get(0));
+        }
+        BBVariable conditionConstant = null;
+        if(getVariable(args.get(2)) != null){
+            conditionConstant = getVariable(args.get(2));
+        } else {
+            conditionConstant = new BBVariable(args.get(2));
+        }
+        BBIfCondition ifCondition = new BBIfCondition(conditionVarible, conditionConstant, this.parser.currentAddress() - 1, args.get(1));
+        if(!ifCondition.finished()){
+            int address = this.parser.currentAddress();
+            while(address < findBlockEnd(this.parser.currentAddress())){
+                execute(this.parser.getStatement(address));
+                address++;
+            }
+        } 
+        this.parser.branch(findBlockEnd(this.parser.currentAddress()) + 1);
+        BBStatement nextStatement = this.parser.getStatement(this.parser.currentAddress());
+        if(nextStatement.getOperation().equals("elif") || nextStatement.getOperation().equals("else")){
+            if(nextStatement.getOperation().equals("elif")){
+                return startIf(nextStatement.getArguments());    
+            } else if (nextStatement.getOperation().equals("else")){
+                if(ifCondition.finished()){
+                    int address = this.parser.currentAddress() + 1;
+                    while(address < findBlockEnd(this.parser.currentAddress() + 1)){
+                        execute(this.parser.getStatement(address));
+                        address++;
+                    }
+                }
+                this.parser.branch(findBlockEnd(this.parser.currentAddress() + 1) + 1);
+            }
         }
         return true;
     }
@@ -366,7 +424,7 @@ class BBFunctionInterpreter {
         int depth = 0;
         for(int i = address - 1; i < statements.size(); i++){
             String operation = statements.get(i).getOperation();
-            if(operation.equals("while") || operation.equals("func")){
+            if(operation.equals("while") || operation.equals("func") || operation.equals("if")  || operation.equals("elif") || operation.equals("else")){
                 depth++;
             } else if (operation.equals("end")){
                 depth--;

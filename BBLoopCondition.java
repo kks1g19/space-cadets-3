@@ -10,6 +10,7 @@ public class BBLoopCondition {
     private final BBVariable loopVariable;
     private final BBVariable loopConstant;
     private final int branchTo;
+    private final boolean type;
 
     /**
       * Create a new BBLoopCondition
@@ -18,10 +19,11 @@ public class BBLoopCondition {
       * @param loopConstant loop target value
       * @param branchTo Where to jump when loop is finished
       */
-    public BBLoopCondition(BBVariable loopVariable, BBVariable loopConstant, int branchTo){
+    public BBLoopCondition(BBVariable loopVariable, BBVariable loopConstant, int branchTo, String type){
         this.loopVariable = loopVariable;
         this.loopConstant = loopConstant;
         this.branchTo = branchTo;
+        this.type = type.equals("not");
     }
 
     /**
@@ -30,7 +32,11 @@ public class BBLoopCondition {
       * @return True when the loop condition is met 
       */
     public boolean finished(){
-        return this.loopVariable.getValue() == this.loopConstant.getValue();
+        if(this.type){
+            return this.loopVariable.getValue() == this.loopConstant.getValue();
+        } else {
+            return this.loopVariable.getValue() != this.loopConstant.getValue();
+        }
     }
 
     /**
